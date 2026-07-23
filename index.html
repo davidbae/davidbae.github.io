@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>David Labs — 아이디어를 제품으로 만드는 1인 기술 연구소</title>
+<meta name="description" content="David Labs는 David의 아이디어를 직접 연구·개발해 제품으로 만드는 1인 기술 연구소입니다. 집중력 향상 모바일 앱과 차량용 DLT 로그 분석 도구(DLogTracer)를 만듭니다." />
+
+<!-- Open Graph (SNS 공유 시 미리보기) -->
+<meta property="og:title" content="David Labs — 아이디어를 제품으로 만드는 연구소" />
+<meta property="og:description" content="David의 아이디어를 직접 개발해 제품으로 만드는 1인 기술 연구소. 집중력 앱과 차량용 DLT 분석 도구 DLogTracer를 만듭니다." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ko_KR" />
+
+<style>
+  /* ===== 디자인 토큰 (브랜드 색을 여기서 한 번에 바꿀 수 있습니다) ===== */
+  :root{
+    --bg:#0b0e11;          /* 배경: 거의 검정(약간 푸른) */
+    --surface:#14181d;      /* 카드 표면 */
+    --surface-2:#1b2027;    /* 카드 hover 등 */
+    --text:#e6e9ec;         /* 본문 텍스트 */
+    --muted:#9aa4ad;        /* 보조 텍스트 */
+    --border:rgba(255,255,255,.08);
+    --accent:#34d399;       /* 강조색: '트레이스 그린'(오실로스코프 신호 느낌). DLog 강조·버튼·파형에 사용 */
+    --accent-dim:rgba(52,211,153,.14);
+    --radius:14px;
+    --maxw:1080px;
+    --mono:ui-monospace,SFMono-Regular,Menlo,"SF Mono",Consolas,"Liberation Mono",monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--sans); line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
+  section{padding:88px 0;}
+  .eyebrow{
+    font-family:var(--mono); font-size:13px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--accent); margin:0 0 14px;
+  }
+  h1,h2,h3{line-height:1.25; margin:0; font-weight:700; letter-spacing:-0.01em;}
+  h2{font-size:clamp(24px,3.4vw,34px);}
+  p{margin:0;}
+  .muted{color:var(--muted);}
+
+  /* ===== 헤더 ===== */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,14,17,.72); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; height:62px;}
+  .brand{font-weight:700; font-size:18px; letter-spacing:-0.01em; display:flex; align-items:center; gap:9px;}
+  .brand .dot{width:9px; height:9px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px var(--accent);}
+  .nav-links{display:flex; gap:28px; align-items:center;}
+  .nav-links a{color:var(--muted); font-size:15px; transition:color .15s;}
+  .nav-links a:hover{color:var(--text);}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:11px 20px; border-radius:10px; font-size:15px; font-weight:600;
+    border:1px solid var(--border); transition:all .15s; cursor:pointer;
+  }
+  .btn-primary{background:var(--accent); color:#06231a; border-color:var(--accent);}
+  .btn-primary:hover{filter:brightness(1.08); transform:translateY(-1px);}
+  .btn-ghost:hover{background:var(--surface-2); border-color:rgba(255,255,255,.18);}
+  @media(max-width:720px){ .nav-links a.navlink{display:none;} }
+
+  /* ===== 히어로 ===== */
+  .hero{position:relative; overflow:hidden; padding:112px 0 96px;}
+  .hero .wrap{position:relative; z-index:2;}
+  .hero h1{font-size:clamp(34px,6vw,60px); max-width:16ch;}
+  .hero .accent{color:var(--accent);}
+  .hero .sub{margin-top:22px; max-width:56ch; font-size:clamp(16px,2vw,19px); color:var(--muted);}
+  .hero .cta{margin-top:36px; display:flex; gap:14px; flex-wrap:wrap;}
+  .hero .tagline{margin-top:34px; font-family:var(--mono); font-size:13px; color:var(--muted); letter-spacing:.02em;}
+  /* 배경 파형(트레이스) 모티프 — 로그 신호를 상징 */
+  .waveform{position:absolute; inset:0; z-index:1; opacity:.5; pointer-events:none;}
+  .waveform svg{width:100%; height:100%;}
+  .hero::after{ /* 하단 페이드 */
+    content:""; position:absolute; left:0; right:0; bottom:0; height:180px; z-index:1;
+    background:linear-gradient(to bottom,transparent,var(--bg));
+  }
+
+  /* ===== 공통 그리드/카드 ===== */
+  .grid{display:grid; gap:20px;}
+  .cols-3{grid-template-columns:repeat(3,1fr);}
+  .cols-2{grid-template-columns:repeat(2,1fr);}
+  @media(max-width:820px){ .cols-3,.cols-2{grid-template-columns:1fr;} }
+  .card{
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:26px; transition:border-color .15s, background .15s;
+  }
+  .card:hover{border-color:rgba(52,211,153,.35); background:var(--surface-2);}
+  .card h3{font-size:18px; margin-bottom:8px;}
+  .card p{font-size:15px; color:var(--muted);}
+  .card .ico{font-family:var(--mono); color:var(--accent); font-size:13px; letter-spacing:.1em; margin-bottom:14px; display:block;}
+
+  /* ===== 제품 섹션 ===== */
+  .product{background:linear-gradient(180deg,transparent, rgba(52,211,153,.03));}
+  .product-name{font-size:clamp(30px,5vw,46px); font-weight:800; letter-spacing:-0.02em; margin:6px 0 4px;}
+  .product-name .dlog{color:var(--accent);}   /* DLog 강조색 */
+  .product-name .tracer{color:var(--text);}   /* Tracer 기본색 */
+  .badge{
+    display:inline-block; font-family:var(--mono); font-size:12px; letter-spacing:.06em;
+    color:var(--accent); background:var(--accent-dim); border:1px solid rgba(52,211,153,.3);
+    padding:5px 11px; border-radius:999px; margin-bottom:18px;
+  }
+  .product .desc{max-width:60ch; color:var(--muted); font-size:17px; margin-bottom:32px;}
+
+  /* ===== 가치(Why) ===== */
+  .chips{display:flex; flex-wrap:wrap; gap:12px; margin-top:22px;}
+  .chip{font-family:var(--mono); font-size:14px; color:var(--text); border:1px solid var(--border); background:var(--surface); padding:8px 16px; border-radius:999px;}
+
+  /* ===== 서비스 한 줄 ===== */
+  .service{border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--surface);}
+  .service .wrap{display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;}
+  .service p{font-size:17px;}
+
+  /* ===== 문의 ===== */
+  .contact{text-align:center;}
+  .contact h2{margin-bottom:14px;}
+  .contact .mail{font-family:var(--mono); font-size:clamp(16px,2.4vw,22px); color:var(--accent); margin:18px 0 26px; display:inline-block;}
+
+  /* ===== 푸터 ===== */
+  footer{border-top:1px solid var(--border); padding:44px 0; color:var(--muted); font-size:14px;}
+  .foot{display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; align-items:center;}
+  .foot a{color:var(--muted); text-decoration:underline; text-underline-offset:3px;}
+  .foot a:hover{color:var(--text);}
+  .foot .biz{font-size:12.5px; line-height:1.7;}
+</style>
+</head>
+<body>
+
+<!-- ===================== 헤더 ===================== -->
+<header>
+  <div class="wrap nav">
+    <div class="brand"><span class="dot"></span>David&nbsp;Labs</div>
+    <nav class="nav-links">
+      <a href="#what" class="navlink">소개</a>
+      <a href="#product" class="navlink">제품</a>
+      <a href="#why" class="navlink">왜 우리인가</a>
+      <a href="#contact" class="btn btn-ghost">문의</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== 히어로 ===================== -->
+<section class="hero">
+  <!-- 배경: 로그 신호를 상징하는 트레이스 파형 (블록체인 모티프 대신 오실로스코프/타임라인 느낌) -->
+  <div class="waveform" aria-hidden="true">
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="none" fill="none">
+      <polyline points="0,240 120,240 150,120 180,300 210,200 260,200 300,60 330,340 360,200 480,200 520,150 560,250 600,200 720,200 760,110 800,290 840,200 980,200 1020,160 1060,240 1100,200 1200,200"
+        stroke="#34d399" stroke-width="2" stroke-opacity="0.55" fill="none"/>
+      <polyline points="0,320 200,320 240,290 280,340 320,320 520,320 560,300 600,330 640,320 900,320 940,305 980,332 1020,320 1200,320"
+        stroke="#34d399" stroke-width="1.5" stroke-opacity="0.25" fill="none"/>
+    </svg>
+  </div>
+
+  <div class="wrap">
+    <p class="eyebrow">1인 기술 연구소 · Ideas into Products</p>
+    <h1>David의 아이디어를,<br><span class="accent">쓸 수 있는 제품</span>으로.</h1>
+    <p class="sub">David Labs는 창업자 David가 자신의 아이디어를 직접 연구·개발해 제품으로 만드는 1인 기술 연구소입니다. 일상의 생산성부터 자동차 진단까지, <strong style="color:var(--text)">실제로 쓸 수 있는 도구</strong>를 만듭니다.</p>
+    <div class="cta">
+      <a href="#product" class="btn btn-primary">제품 보기 →</a>
+      <a href="#contact" class="btn btn-ghost">문의하기</a>
+    </div>
+    <p class="tagline">// From idea to product.</p>
+  </div>
+</section>
+
+<!-- ===================== 무엇을 하나요 ===================== -->
+<section id="what">
+  <div class="wrap">
+    <p class="eyebrow">무엇을 하나요</p>
+    <h2 style="max-width:22ch;">David의 아이디어를,<br>연구소가 제품으로 만듭니다.</h2>
+    <p class="muted" style="max-width:62ch; margin-top:20px; font-size:17px;">
+      David Labs는 창업자 David가 직접 필요를 느낀 문제에서 출발합니다.
+      아이디어를 스스로 설계·개발해 실제 제품으로 내놓고, 외주가 아니라 만드는 사람이 끝까지 책임집니다.
+    </p>
+
+    <div class="grid cols-3" style="margin-top:40px;">
+      <div class="card">
+        <span class="ico">01 / IDEA</span>
+        <h3>아이디어에서 출발</h3>
+        <p>David가 직접 겪은 불편과 필요에서 제품이 시작됩니다.</p>
+      </div>
+      <div class="card">
+        <span class="ico">02 / BUILD</span>
+        <h3>직접 개발</h3>
+        <p>기획·설계·개발·지원까지 한 사람이 책임지는 1인 연구소.</p>
+      </div>
+      <div class="card">
+        <span class="ico">03 / TRUST</span>
+        <h3>정직한 기술</h3>
+        <p>과장 없이, 실제로 쓸 수 있는 도구를 만듭니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 제품: 두 가지 ===================== -->
+<section id="product" class="product">
+  <div class="wrap">
+    <p class="eyebrow">제품</p>
+    <h2 style="max-width:20ch; margin-bottom:12px;">지금 만들고 있는 두 가지</h2>
+    <p class="muted" style="max-width:56ch; font-size:17px; margin-bottom:40px;">
+      일상의 생산성부터 자동차 진단까지 — David Labs가 직접 개발하는 제품입니다.
+    </p>
+
+    <div class="grid cols-2">
+      <!-- 제품 1: 집중력 앱 -->
+      <div class="card">
+        <span class="ico">MOBILE / PRODUCTIVITY</span>
+        <!-- TODO: 앱 정식 명칭 확정 후 '집중력 앱'을 교체 -->
+        <h3 style="font-size:23px; margin:6px 0 12px;">집중력 앱 <span class="muted" style="font-size:14px; font-weight:400;">(제품명 미정)</span></h3>
+        <span class="badge">● 개발 중</span>
+        <p style="margin-top:14px;">집중이 필요한 순간, 몰입을 도와주는 모바일 앱. 산만함을 줄이고 한 가지에 집중하도록 돕습니다.</p>
+        <div style="margin-top:24px;">
+          <a href="mailto:iamdavidbae@gmail.com?subject=%EC%A7%91%EC%A4%91%EB%A0%A5%20%EC%95%B1%20%EB%AC%B8%EC%9D%98" class="btn btn-primary">출시 알림·문의</a>
+        </div>
+      </div>
+
+      <!-- 제품 2: DLogTracer -->
+      <div class="card">
+        <span class="ico">AUTOMOTIVE / DLT</span>
+        <h3 style="font-size:26px; margin:6px 0 4px; letter-spacing:-0.02em;"><span class="dlog">DLog</span><span class="tracer">Tracer</span></h3>
+        <p class="muted" style="font-family:var(--mono); font-size:12.5px; margin-bottom:12px;">디-로그-트레이서 · Diagnostic Log &amp; Trace</p>
+        <span class="badge">● 개발·평가 단계</span>
+        <p style="margin-top:14px;">AUTOSAR/COVESA 기반 <strong style="color:var(--text)">DLT 로그를 추적·분석하는 DLT Viewer 플러그인</strong>. 흩어진 로그를 추적하고, 필요한 신호만 걸러내고, 이상을 알립니다.</p>
+        <div class="chips" style="margin-top:16px;">
+          <span class="chip">Trace 추적</span>
+          <span class="chip">Export 추출</span>
+          <span class="chip">Alert 알림</span>
+        </div>
+        <div style="margin-top:24px;">
+          <!-- 지금은 평가 단계 → 메일 문의. 추후 DLogTracerHub 링크로 교체 -->
+          <a href="mailto:iamdavidbae@gmail.com?subject=DLogTracer%20%EB%8F%84%EC%9E%85%C2%B7%EC%B6%9C%EC%8B%9C%20%EB%AC%B8%EC%9D%98" class="btn btn-primary">출시 알림·도입 문의</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 왜 David Labs인가 ===================== -->
+<section id="why">
+  <div class="wrap">
+    <p class="eyebrow">왜 David Labs인가</p>
+    <h2 style="max-width:20ch;">외주 창구가 아니라,<br>연구소입니다.</h2>
+    <p class="muted" style="max-width:58ch; margin-top:20px; font-size:17px;">
+      도메인을 아는 개발자가 직접 설계하고, 직접 지원합니다.
+      1인 개발이기에 오히려 <strong style="color:var(--text)">누가 만드는지가 분명</strong>하고, 만드는 사람이 끝까지 책임집니다.
+    </p>
+    <div class="chips">
+      <span class="chip">독립적</span>
+      <span class="chip">장인정신</span>
+      <span class="chip">정직한 기술</span>
+      <span class="chip">신뢰</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 서비스 한 줄 ===================== -->
+<section class="service" style="padding:40px 0;">
+  <div class="wrap">
+    <p>제품 외에 <strong>맞춤 소프트웨어 개발·협업</strong> 문의도 받습니다.</p>
+    <a href="mailto:iamdavidbae@gmail.com?subject=%EB%A7%9E%EC%B6%A4%20%EA%B0%9C%EB%B0%9C%20%EB%AC%B8%EC%9D%98" class="btn btn-ghost">개발 문의 →</a>
+  </div>
+</section>
+
+<!-- ===================== 문의 ===================== -->
+<section id="contact" class="contact">
+  <div class="wrap">
+    <p class="eyebrow" style="display:inline-block;">문의</p>
+    <h2>도입 검토·협업·커스텀 개발을 환영합니다.</h2>
+    <a class="mail" href="mailto:iamdavidbae@gmail.com">iamdavidbae@gmail.com</a><br>
+    <a href="mailto:iamdavidbae@gmail.com?subject=David%20Labs%20%EB%AC%B8%EC%9D%98" class="btn btn-primary">문의 메일 보내기</a>
+    <!-- 나중에 무료 폼(Google Forms / Tally / Formspree)으로 교체하면 폼 접수 가능 -->
+  </div>
+</section>
+
+<!-- ===================== 푸터 ===================== -->
+<footer>
+  <div class="wrap foot">
+    <div>
+      <div class="brand" style="font-size:16px; margin-bottom:8px;"><span class="dot"></span>David&nbsp;Labs</div>
+      <div class="biz muted">
+        <!-- TODO: 사업자 정보 확정 후 채우기 -->
+        개인사업자 · 대표 David Bae<br>
+        사업자등록번호 000-00-00000
+      </div>
+    </div>
+    <div style="text-align:right;">
+      <!-- TODO: 문서 링크 연결(오픈소스 라이선스 고지 / 개인정보처리방침) -->
+      <a href="#">오픈소스 라이선스 고지</a> &nbsp;·&nbsp;
+      <a href="#">개인정보처리방침</a>
+      <div class="muted" style="margin-top:12px; font-size:12.5px;">© 2026 David Labs. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
