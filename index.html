@@ -127,6 +127,12 @@
     padding:5px 11px; border-radius:var(--radius); margin-bottom:18px;
   }
   .product .desc{max-width:60ch; color:var(--muted); font-size:17px; margin-bottom:32px;}
+  .product-card{display:flex; flex-direction:column; align-items:flex-start;}
+  .product-title{font-family:var(--display); font-size:24px; margin:6px 0 12px; letter-spacing:-0.02em;}
+  .product-sub{font-family:var(--mono); font-size:12.5px; color:var(--muted); margin:-8px 0 12px;}
+  .product-desc{margin-top:14px;}
+  .product-card .chips{margin-top:16px;}
+  .card-cta{margin-top:auto; padding-top:24px;}
 
   /* ===== 가치(Why) ===== */
   .chips{display:flex; flex-wrap:wrap; gap:12px; margin-top:22px;}
@@ -223,39 +229,56 @@
 <section id="product" class="product">
   <div class="wrap">
     <p class="eyebrow">제품</p>
-    <h2 style="max-width:20ch; margin-bottom:12px;">지금 만들고 있는 두 가지</h2>
+    <h2 style="max-width:20ch; margin-bottom:12px;">지금 만들고 있는 세 가지</h2>
     <p class="muted" style="max-width:56ch; font-size:17px; margin-bottom:40px;">
-      일상의 생산성부터 자동차 진단까지 — David Labs가 직접 개발하는 제품입니다.
+      일상의 생산성부터 자동차 진단, 여행까지 — David Labs가 직접 개발하는 제품입니다.
     </p>
 
-    <div class="grid cols-2">
+    <div class="grid cols-3">
       <!-- 제품 1: 집중력 앱 -->
-      <div class="card">
+      <div class="card product-card">
         <span class="ico">MOBILE / PRODUCTIVITY</span>
         <!-- TODO: 앱 정식 명칭 확정 후 '집중력 앱'을 교체 -->
-        <h3 style="font-size:23px; margin:6px 0 12px;">집중력 앱 <span class="muted" style="font-size:14px; font-weight:400;">(제품명 미정)</span></h3>
+        <h3 class="product-title">집중력 앱 <span class="muted" style="font-size:14px; font-weight:400;">(제품명 미정)</span></h3>
         <span class="badge">● 개발 중</span>
-        <p style="margin-top:14px;">집중이 필요한 순간, 몰입을 도와주는 모바일 앱. 산만함을 줄이고 한 가지에 집중하도록 돕습니다.</p>
-        <div style="margin-top:24px;">
+        <p class="product-desc">집중이 필요한 순간, 몰입을 도와주는 모바일 앱. 산만함을 줄이고 한 가지에 집중하도록 돕습니다.</p>
+        <div class="card-cta">
           <a href="mailto:iamdavidbae@gmail.com?subject=%EC%A7%91%EC%A4%91%EB%A0%A5%20%EC%95%B1%20%EB%AC%B8%EC%9D%98" class="btn btn-primary">출시 알림·문의</a>
         </div>
       </div>
 
       <!-- 제품 2: DLogTracer -->
-      <div class="card">
+      <div class="card product-card">
         <span class="ico">AUTOMOTIVE / DLT</span>
-        <h3 style="font-family:var(--display); font-size:26px; margin:6px 0 4px; letter-spacing:-0.02em;"><span style="font-weight:600;color:var(--text)">D</span><span style="font-weight:600;color:var(--accent)">Log</span><span style="font-weight:300;color:var(--text)">Tracer</span></h3>
-        <p class="muted" style="font-family:var(--mono); font-size:12.5px; margin-bottom:12px;">디-로그-트레이서 · Diagnostic Log &amp; Trace</p>
+        <h3 class="product-title"><span style="font-weight:600;color:var(--text)">D</span><span style="font-weight:600;color:var(--accent)">Log</span><span style="font-weight:300;color:var(--text)">Tracer</span></h3>
+        <p class="product-sub">디-로그-트레이서 · Diagnostic Log &amp; Trace</p>
         <span class="badge">● 개발·평가 단계</span>
-        <p style="margin-top:14px;">AUTOSAR/COVESA 기반 <strong style="color:var(--text)">DLT 로그를 추적·분석하는 DLT Viewer 플러그인</strong>. 흩어진 로그를 추적하고, 필요한 신호만 걸러내고, 이상을 알립니다.</p>
-        <div class="chips" style="margin-top:16px;">
+        <p class="product-desc">AUTOSAR/COVESA 기반 <strong style="color:var(--text)">DLT 로그를 추적·분석하는 DLT Viewer 플러그인</strong>. 흩어진 로그를 추적하고, 필요한 신호만 걸러내고, 이상을 알립니다.</p>
+        <div class="chips">
           <span class="chip">Trace 추적</span>
           <span class="chip">Export 추출</span>
           <span class="chip">Alert 알림</span>
         </div>
-        <div style="margin-top:24px;">
+        <div class="card-cta">
           <!-- 지금은 평가 단계 → 메일 문의. 추후 DLogTracerHub 링크로 교체 -->
           <a href="mailto:iamdavidbae@gmail.com?subject=DLogTracer%20%EB%8F%84%EC%9E%85%C2%B7%EC%B6%9C%EC%8B%9C%20%EB%AC%B8%EC%9D%98" class="btn btn-primary">출시 알림·도입 문의</a>
+        </div>
+      </div>
+
+      <!-- 제품 3: 제이제이 여행맛집 (외부 사이트, Cloudflare Workers) -->
+      <div class="card product-card">
+        <span class="ico">WEB / TRAVEL</span>
+        <h3 class="product-title">제이제이 여행맛집</h3>
+        <p class="product-sub">JJ's Tastes &amp; Travels</p>
+        <span class="badge">● 운영 중</span>
+        <p class="product-desc">여행·맛집 유튜브 채널의 여행자 도구 사이트. 매장에서 잠금화면만 보고 현지 가격을 원화로 확인하는 환율 잠금화면을 제공합니다.</p>
+        <div class="chips">
+          <span class="chip">환율 잠금화면</span>
+          <span class="chip">크루즈 가이드 (준비 중)</span>
+        </div>
+        <div class="card-cta">
+          <!-- davidlabs.co.kr이 프레임 포워딩이라 반드시 새 탭으로 연다 -->
+          <a href="https://jjtastesandtravels-web.iamdavidbae.workers.dev/" target="_blank" rel="noopener" class="btn btn-primary">사이트 방문 ↗</a>
         </div>
       </div>
     </div>
