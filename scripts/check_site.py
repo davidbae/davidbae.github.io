@@ -47,8 +47,8 @@ check("초록 점(.dot) 제거", 'class="dot"' not in HTML and ".brand .dot" not
 check("favicon.svg 링크", '<link rel="icon" href="logo/favicon.svg" type="image/svg+xml">' in HTML)
 check("apple-touch-icon 링크", '<link rel="apple-touch-icon" href="logo/apple-touch-icon.png">' in HTML)
 check("theme-color", '<meta name="theme-color" content="#2B4A8C">' in HTML)
-check("og:image는 github.io",
-      '<meta property="og:image" content="https://davidbae.github.io/logo/favicon-512.png">' in HTML)
+check("og:image는 davidlabs.co.kr",
+      '<meta property="og:image" content="https://davidlabs.co.kr/logo/favicon-512.png">' in HTML)
 
 # 접근성
 check("focus-visible 아웃라인", "outline:2px solid var(--accent); outline-offset:2px;" in HTML)

@@ -22,6 +22,13 @@
 - **`.gitignore`**: `.DS_Store`, `.superpowers/`, `.playwright-mcp/`(스크린샷 임시 폴더) 제외.
 
 ## 남은 과제
-- davidlabs.co.kr / davidlabs.kr DNS를 GitHub Pages(A 레코드 + `CNAME` 파일)로 정식 연결 → 파비콘·OG·탭 제목이 도메인에서도 보이게 됨
+- ~~davidlabs.co.kr DNS 정식 연결~~ (완료, 아래 참고)
 - `david@davidlabs.co.kr` 메일함 개설 후 mailto 5곳 교체 (핸드오프 README 7번)
 - 집중력 앱 정식 명칭, 사업자등록번호, 약관 링크 (기존 TODO)
+
+## 2026-10-04 (도메인 직접 연결)
+
+- **davidlabs.co.kr**: 가비아 포워딩 해제 → A 레코드 4개(185.199.108~111.153) + `www` CNAME `davidbae.github.io`. GitHub Pages 커스텀 도메인 설정, HTTPS 인증서 발급, Enforce HTTPS 완료. `davidbae.github.io`, `http://`, `www.`는 모두 `https://davidlabs.co.kr`로 301.
+- **og:image**: 도메인 연결 후 `https://davidlabs.co.kr/logo/favicon-512.png`로 변경 (핸드오프 README 5번 원래 값).
+- **davidlabs.kr**: 가비아 프레임 포워딩 → `https://davidlabs.co.kr`. 가비아 서버가 `*.gabia.com` 인증서를 내서 HTTPS 경고("주의 요함")가 뜸. 사용자가 그대로 두기로 결정. 해결하려면 (A) 리다이렉트 전용 GitHub Pages 저장소에 davidlabs.kr 연결, 또는 (B) Cloudflare 네임서버 + 리다이렉트 규칙.
+- **남은 권장 사항**: 계정 설정 https://github.com/settings/pages 에서 davidlabs.co.kr 도메인 소유권 인증(TXT 레코드).
