@@ -11,22 +11,38 @@
 <meta property="og:description" content="David의 아이디어를 직접 개발해 제품으로 만드는 1인 기술 연구소. 집중력 앱과 차량용 DLT 분석 도구 DLogTracer를 만듭니다." />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="ko_KR" />
+<meta property="og:image" content="https://davidbae.github.io/logo/favicon-512.png">
+<meta name="theme-color" content="#2B4A8C">
+
+<!-- 파비콘 -->
+<link rel="icon" href="logo/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="logo/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
+
+<!-- 서체: Archivo(라틴), Pretendard(한글) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 
 <style>
-  /* ===== 디자인 토큰 (브랜드 색을 여기서 한 번에 바꿀 수 있습니다) ===== */
+  /* ===== 디자인 토큰 (DAVIDLABS 브랜드 — 핸드오프 README 확정값) ===== */
   :root{
-    --bg:#0b0e11;          /* 배경: 거의 검정(약간 푸른) */
-    --surface:#14181d;      /* 카드 표면 */
-    --surface-2:#1b2027;    /* 카드 hover 등 */
-    --text:#e6e9ec;         /* 본문 텍스트 */
-    --muted:#9aa4ad;        /* 보조 텍스트 */
-    --border:rgba(255,255,255,.08);
-    --accent:#34d399;       /* 강조색: '트레이스 그린'(오실로스코프 신호 느낌). DLog 강조·버튼·파형에 사용 */
-    --accent-dim:rgba(52,211,153,.14);
-    --radius:14px;
+    --bg:#f2f2f3;           /* 페이지 바탕 */
+    --surface:#ffffff;      /* 카드 표면 */
+    --surface-2:#f7f7f9;    /* 보조 표면 */
+    --text:#1d1f20;         /* 본문 (Charcoal) */
+    --muted:#4a4d50;        /* 보조 텍스트 */
+    --border:#d5d6d8;
+    --accent:#2B4A8C;       /* Ink Navy: 버튼·링크·강조 */
+    --accent-hover:#1d3466; /* Navy Hover */
+    --accent-dim:rgba(43,74,140,.08);
+    --highlight:#22B0D9;    /* Cyan: 작은 강조에만. 본문 글자색 금지 */
+    --radius:4px;
     --maxw:1080px;
     --mono:ui-monospace,SFMono-Regular,Menlo,"SF Mono",Consolas,"Liberation Mono",monospace;
-    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --sans:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    --display:"Archivo","Pretendard",sans-serif;
   }
 
   *{box-sizing:border-box;}
@@ -44,6 +60,8 @@
     text-transform:uppercase; color:var(--accent); margin:0 0 14px;
   }
   h1,h2,h3{line-height:1.25; margin:0; font-weight:700; letter-spacing:-0.01em;}
+  h1,h2,.product-name{font-family:var(--display);}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
   h2{font-size:clamp(24px,3.4vw,34px);}
   p{margin:0;}
   .muted{color:var(--muted);}
@@ -51,23 +69,23 @@
   /* ===== 헤더 ===== */
   header{
     position:sticky; top:0; z-index:50;
-    background:rgba(11,14,17,.72); backdrop-filter:blur(10px);
+    background:rgba(242,242,243,.85); backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border);
   }
   .nav{display:flex; align-items:center; justify-content:space-between; height:62px;}
-  .brand{font-weight:700; font-size:18px; letter-spacing:-0.01em; display:flex; align-items:center; gap:9px;}
-  .brand .dot{width:9px; height:9px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px var(--accent);}
+  .brand{display:flex; align-items:center;}
+  .brand img{display:block;}
   .nav-links{display:flex; gap:28px; align-items:center;}
   .nav-links a{color:var(--muted); font-size:15px; transition:color .15s;}
   .nav-links a:hover{color:var(--text);}
   .btn{
     display:inline-flex; align-items:center; gap:8px;
-    padding:11px 20px; border-radius:10px; font-size:15px; font-weight:600;
+    padding:11px 20px; border-radius:var(--radius); font-size:15px; font-weight:600;
     border:1px solid var(--border); transition:all .15s; cursor:pointer;
   }
-  .btn-primary{background:var(--accent); color:#06231a; border-color:var(--accent);}
-  .btn-primary:hover{filter:brightness(1.08); transform:translateY(-1px);}
-  .btn-ghost:hover{background:var(--surface-2); border-color:rgba(255,255,255,.18);}
+  .btn-primary{background:var(--accent); color:#fff; border-color:var(--accent);}
+  .btn-primary:hover{background:var(--accent-hover); border-color:var(--accent-hover); transform:translateY(-1px);}
+  .btn-ghost:hover{background:var(--accent-dim); border-color:var(--accent);}
   @media(max-width:720px){ .nav-links a.navlink{display:none;} }
 
   /* ===== 히어로 ===== */
@@ -95,29 +113,27 @@
     background:var(--surface); border:1px solid var(--border);
     border-radius:var(--radius); padding:26px; transition:border-color .15s, background .15s;
   }
-  .card:hover{border-color:rgba(52,211,153,.35); background:var(--surface-2);}
+  .card:hover{border-color:rgba(43,74,140,.35); background:#fff;}
   .card h3{font-size:18px; margin-bottom:8px;}
   .card p{font-size:15px; color:var(--muted);}
   .card .ico{font-family:var(--mono); color:var(--accent); font-size:13px; letter-spacing:.1em; margin-bottom:14px; display:block;}
 
   /* ===== 제품 섹션 ===== */
-  .product{background:linear-gradient(180deg,transparent, rgba(52,211,153,.03));}
+  .product{background:linear-gradient(180deg,transparent, rgba(43,74,140,.03));}
   .product-name{font-size:clamp(30px,5vw,46px); font-weight:800; letter-spacing:-0.02em; margin:6px 0 4px;}
-  .product-name .dlog{color:var(--accent);}   /* DLog 강조색 */
-  .product-name .tracer{color:var(--text);}   /* Tracer 기본색 */
   .badge{
     display:inline-block; font-family:var(--mono); font-size:12px; letter-spacing:.06em;
-    color:var(--accent); background:var(--accent-dim); border:1px solid rgba(52,211,153,.3);
-    padding:5px 11px; border-radius:999px; margin-bottom:18px;
+    color:var(--accent); background:var(--accent-dim); border:1px solid rgba(43,74,140,.25);
+    padding:5px 11px; border-radius:var(--radius); margin-bottom:18px;
   }
   .product .desc{max-width:60ch; color:var(--muted); font-size:17px; margin-bottom:32px;}
 
   /* ===== 가치(Why) ===== */
   .chips{display:flex; flex-wrap:wrap; gap:12px; margin-top:22px;}
-  .chip{font-family:var(--mono); font-size:14px; color:var(--text); border:1px solid var(--border); background:var(--surface); padding:8px 16px; border-radius:999px;}
+  .chip{font-family:var(--mono); font-size:14px; color:var(--text); border:1px solid var(--border); background:var(--surface); padding:8px 16px; border-radius:var(--radius);}
 
   /* ===== 서비스 한 줄 ===== */
-  .service{border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--surface);}
+  .service{border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:#fff;}
   .service .wrap{display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;}
   .service p{font-size:17px;}
 
@@ -139,7 +155,7 @@
 <!-- ===================== 헤더 ===================== -->
 <header>
   <div class="wrap nav">
-    <div class="brand"><span class="dot"></span>David&nbsp;Labs</div>
+    <a href="#" class="brand"><img src="logo/davidlabs-horizontal.svg" alt="DAVIDLABS" height="20"></a>
     <nav class="nav-links">
       <a href="#what" class="navlink">소개</a>
       <a href="#product" class="navlink">제품</a>
@@ -155,9 +171,9 @@
   <div class="waveform" aria-hidden="true">
     <svg viewBox="0 0 1200 400" preserveAspectRatio="none" fill="none">
       <polyline points="0,240 120,240 150,120 180,300 210,200 260,200 300,60 330,340 360,200 480,200 520,150 560,250 600,200 720,200 760,110 800,290 840,200 980,200 1020,160 1060,240 1100,200 1200,200"
-        stroke="#34d399" stroke-width="2" stroke-opacity="0.55" fill="none"/>
+        stroke="#2B4A8C" stroke-width="2" stroke-opacity="0.18" fill="none"/>
       <polyline points="0,320 200,320 240,290 280,340 320,320 520,320 560,300 600,330 640,320 900,320 940,305 980,332 1020,320 1200,320"
-        stroke="#34d399" stroke-width="1.5" stroke-opacity="0.25" fill="none"/>
+        stroke="#22B0D9" stroke-width="1.5" stroke-opacity="0.35" fill="none"/>
     </svg>
   </div>
 
@@ -228,7 +244,7 @@
       <!-- 제품 2: DLogTracer -->
       <div class="card">
         <span class="ico">AUTOMOTIVE / DLT</span>
-        <h3 style="font-size:26px; margin:6px 0 4px; letter-spacing:-0.02em;"><span class="dlog">DLog</span><span class="tracer">Tracer</span></h3>
+        <h3 style="font-family:var(--display); font-size:26px; margin:6px 0 4px; letter-spacing:-0.02em;"><span style="font-weight:600;color:var(--text)">D</span><span style="font-weight:600;color:var(--accent)">Log</span><span style="font-weight:300;color:var(--text)">Tracer</span></h3>
         <p class="muted" style="font-family:var(--mono); font-size:12.5px; margin-bottom:12px;">디-로그-트레이서 · Diagnostic Log &amp; Trace</p>
         <span class="badge">● 개발·평가 단계</span>
         <p style="margin-top:14px;">AUTOSAR/COVESA 기반 <strong style="color:var(--text)">DLT 로그를 추적·분석하는 DLT Viewer 플러그인</strong>. 흩어진 로그를 추적하고, 필요한 신호만 걸러내고, 이상을 알립니다.</p>
@@ -287,7 +303,7 @@
 <footer>
   <div class="wrap foot">
     <div>
-      <div class="brand" style="font-size:16px; margin-bottom:8px;"><span class="dot"></span>David&nbsp;Labs</div>
+      <div class="brand" style="margin-bottom:8px;"><img src="logo/davidlabs-horizontal.svg" alt="DAVIDLABS" height="16"></div>
       <div class="biz muted">
         <!-- TODO: 사업자 정보 확정 후 채우기 -->
         개인사업자 · 대표 David Bae<br>
