@@ -76,8 +76,9 @@ check("제품 섹션 제목 '세 가지'", "지금 만들고 있는 세 가지" 
 check("제품 그리드 cols-3", 'class="grid cols-3"' in product_html)
 check("제품 카드 3개", product_html.count('class="card product-card"') == 3)
 check("JJ 카드 제목", "제이제이 여행맛집" in product_html)
-check("JJ 로고 (제목 왼쪽)",
-      re.search(r'<h3 class="product-title product-title-logo"><img src="images/jj-logo.png" alt="" width="40" height="40">제이제이 여행맛집</h3>',
+check("JJ 로고 (제목·부제 왼쪽)",
+      re.search(r'<div class="product-head">\s*<img src="images/jj-logo.png" alt="" width="40" height="40">\s*<div>\s*'
+                r'<h3 class="product-title">제이제이 여행맛집</h3>\s*<p class="product-sub">JJ\'s Tastes &amp; Travels</p>\s*</div>\s*</div>',
                 product_html) is not None)
 check("JJ 로고 파일 존재", (ROOT / "images/jj-logo.png").is_file())
 jj_link = re.search(r'<a [^>]*href="' + re.escape(JJ_URL) + r'"[^>]*>', product_html)

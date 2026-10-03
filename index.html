@@ -129,8 +129,10 @@
   .product .desc{max-width:60ch; color:var(--muted); font-size:17px; margin-bottom:32px;}
   .product-card{display:flex; flex-direction:column; align-items:flex-start;}
   .product-card .product-title{font-family:var(--display); font-size:24px; margin:6px 0 12px; letter-spacing:-0.02em;}
-  .product-title-logo{display:flex; align-items:center; gap:10px;}
-  .product-title-logo img{flex:none; display:block;}
+  .product-head{display:flex; align-items:center; gap:12px; margin:6px 0 12px;}
+  .product-head img{flex:none; display:block;}
+  .product-card .product-head .product-title,
+  .product-card .product-head .product-sub{margin:0;}
   .product-card .product-sub{font-family:var(--mono); font-size:12.5px; color:var(--muted); margin:-8px 0 12px;}
   .product-card .product-desc{margin-top:14px;}
   .product-card .chips{margin-top:16px;}
@@ -270,8 +272,13 @@
       <!-- 제품 3: 제이제이 여행맛집 (외부 사이트, Cloudflare Workers) -->
       <div class="card product-card">
         <span class="ico">WEB / TRAVEL</span>
-        <h3 class="product-title product-title-logo"><img src="images/jj-logo.png" alt="" width="40" height="40">제이제이 여행맛집</h3>
-        <p class="product-sub">JJ's Tastes &amp; Travels</p>
+        <div class="product-head">
+          <img src="images/jj-logo.png" alt="" width="40" height="40">
+          <div>
+            <h3 class="product-title">제이제이 여행맛집</h3>
+            <p class="product-sub">JJ's Tastes &amp; Travels</p>
+          </div>
+        </div>
         <span class="badge">● 운영 중</span>
         <p class="product-desc">여행·맛집 유튜브 채널의 여행자 도구 사이트. 매장에서 잠금화면만 보고 현지 가격을 원화로 확인하는 환율 잠금화면을 제공합니다.</p>
         <div class="chips">
