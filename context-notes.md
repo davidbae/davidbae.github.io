@@ -32,3 +32,22 @@
 - **og:image**: 도메인 연결 후 `https://davidlabs.co.kr/logo/favicon-512.png`로 변경 (핸드오프 README 5번 원래 값).
 - **davidlabs.kr**: 가비아 프레임 포워딩 → `https://davidlabs.co.kr`. 가비아 서버가 `*.gabia.com` 인증서를 내서 HTTPS 경고("주의 요함")가 뜸. 사용자가 그대로 두기로 결정. 해결하려면 (A) 리다이렉트 전용 GitHub Pages 저장소에 davidlabs.kr 연결, 또는 (B) Cloudflare 네임서버 + 리다이렉트 규칙.
 - **남은 권장 사항**: 계정 설정 https://github.com/settings/pages 에서 davidlabs.co.kr 도메인 소유권 인증(TXT 레코드).
+
+## 2026-10-04 — JJ 로고, WebSiteDev 공통 구성, 메모 도구 검토
+
+### JJ 카드 로고
+- 원본 `assets/제이제이여행맛집/Logo 제이제이 여행맛집.png`(800px)를 `sips -Z 80`으로 줄여 `images/jj-logo.png`(약 10KB) 사용. 화면 40px.
+- 처음엔 제목 줄에만 붙였다가(`f9f17cc`), 사용자 요청으로 제목·부제 두 줄 왼쪽에 오는 `.product-head` 구조로 변경(`c7f1915`).
+- `alt=""` — 바로 옆 제목과 같은 이름이라 스크린 리더 중복 읽기 방지.
+
+### WebSiteDev 공통 구성 (저장소 밖 변경)
+- `~/Development/WebSiteDev/CLAUDE.md` 생성: 사이트 목록·세션 규칙·공통 브랜드·연결 규칙. 하위 폴더 세션에 자동 적용.
+- 각 사이트 `.claude/settings.local.json`에 `permissions.additionalDirectories: ["/Users/davidbae/Development/WebSiteDev"]`. git에는 `.git/info/exclude`로 제외(커밋 안 됨).
+- 결정: WebSiteDev를 루트로 여는 방식 대신 "세션은 사이트 폴더 + 공통 규칙은 부모"를 택함. 루트를 부모로 하면 git 상태·배포 폴더 혼동, 메모리/기록 분리, node_modules 검색 잡음이 생기기 때문.
+- "한국어로 응답"은 프로젝트 메모리에서 전역 `~/.claude/CLAUDE.md` 12번으로 이동.
+
+### 화면 메모 도구 (검토만, 미구현)
+- JJ의 page-notes는 Astro 개발 도구 막대·HMR 통신·`data-astro-source-file`에 묶여 있어 그대로 복사 불가.
+- 가능한 방식: 로컬 전용 Python 미리보기 서버가 메모 스크립트를 주입하고 `notes/page-notes.json`에 저장. 위치는 CSS 선택자 + 글자 앞부분. index.html·공개 사이트에는 흔적 없음.
+- 버린 대안: 메인 홈페이지를 Astro로 이전 — 빌드 없는 단일 HTML 원칙을 깨므로 과함.
+- 구현 여부는 **사용자 확인 필요**.
